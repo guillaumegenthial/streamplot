@@ -1,19 +1,32 @@
-# Live Plot
+# StreamPlot
 
-Real time plots
+Real Time Plotting in Python with pyqtgraph.
+Simple to use.
+
+<!-- MarkdownTOC -->
+
+- Install
+- Test
+- Use
+- Install from source
+
+<!-- /MarkdownTOC -->
+
 
 ## Install
 
+Use pip, it will also install `pyqtgraph`
 ```
-python setup.py install
-```
-
-Alternatively, if you want to modify the package and just add an egg-link to site-packages
-
-```
-python setup.py develop
+pip install streamplot
 ```
 
+## Test
+
+To test the install, run the `test.py` script.
+
+```
+python test.py
+```
 
 ## Use
 
@@ -21,7 +34,7 @@ In a python code
 
 - Import package  
 ```python
-from liveplot import PlotManager
+from streamplot import PlotManager
 ```
 - Create instance of `PlotManager` with
 ```python
@@ -44,5 +57,21 @@ plt_mgr.update()
 ```python
 plt_mgr.close()
 ```
+
+## Install from source
+
+Clone repo, and run from Terminal
+
+```
+python setup.py install
+```
+
+Alternatively, if you want to modify the package and just add an egg-link to site-packages
+
+```
+python setup.py develop
+```
+
+
 
 

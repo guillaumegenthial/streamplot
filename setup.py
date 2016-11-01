@@ -5,8 +5,8 @@ except ImportError:
     
 setup(name='streamplot',
       version='0.1',
-      description='Plots in real time',
-      url="https://github.com/GuillaumeGenthial/simpleplot", 
+      description='Real Time Plots with pyqtgraph',
+      url="https://github.com/GuillaumeGenthial/streamplot", 
       author='Guillaume Genthial',
       author_email='genthial@stanford.edu',
       license='MIT',
