@@ -15,7 +15,9 @@ Simple to use.
 
 ## Install
 
-Use pip, it will also install `pyqtgraph`
+Install `pyqtgraph` following the instructions on [this webpage](http://www.pyqtgraph.org)
+
+Use pip (install from repo, see below)
 ```
 pip install streamplot
 ```
