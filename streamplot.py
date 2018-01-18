@@ -6,8 +6,8 @@ try:
 	import pyqtgraph as pg
 	from pyqtgraph.Qt import QtGui, QtCore
 	pg.setConfigOption('background', 'w')
-except Exception, e:
-	print "Unable to import pyqtgraph"
+except Exception as e:
+	print ("Unable to import pyqtgraph")
 
 class LivePlotter(object):
 	"""
@@ -35,6 +35,14 @@ class LivePlotter(object):
 		self.y_axis = kwargs.get("y_axis", "y")
 		self.x_unit = kwargs.get("x_unit", "t")
 		self.y_unit = kwargs.get("y_unit", "")
+		
+		self.x_min = kwargs.get("x_min", 0)
+		self.x_max = kwargs.get("x_max", 100)
+		self.x_pad = kwargs.get("x_pad", 0)
+
+		self.y_min = kwargs.get("y_min", 0)
+		self.y_max = kwargs.get("y_max", 100)
+		self.y_pad = kwargs.get("y_pad", 0)
 
 		self.last_refresh = time.time()
 
@@ -45,9 +53,12 @@ class LivePlotter(object):
 			self.p = self.win.addPlot(title=self.name)
 			self.p.setLabel('left', self.y_axis, units=self.y_unit)
 			self.p.setLabel('bottom', self.x_axis, units=self.x_unit)
+			self.p.setXRange(self.x_min, self.x_max,self.x_pad)
+			self.p.setYRange(self.y_min, self.y_max,self.y_pad)
 			self.plot = self.p.plot(self.x, self.y, pen=self.pen)
-		except Exception, e:
-			print "Unable to initialize Live Plotter"
+		
+		except Exception as e:
+			print ("Unable to initialize Live Plotter")
 
 
 	def add(self, y, x=None):
@@ -84,7 +95,7 @@ class LivePlotter(object):
 			pg.QtGui.QApplication.processEvents()
 			self.last_refresh = t
 
-		except Exception, e:
+		except Exception as e:
 			pass
 
 	def close(self):
@@ -93,7 +104,7 @@ class LivePlotter(object):
 		"""
 		try:
 			self.win.close()
-		except Exception, e:
+		except Exception as e:
 			pass
 
 class PlotManager(object):
@@ -129,17 +140,24 @@ class PlotManager(object):
 		self.title = kwargs.get("title", "Plots")
 		self.size = kwargs.get("size", (800, 400))
 		self.nline = kwargs.get("nline", 3)
-		self.frequency = kwargs.get("frequency", 0.1)
-		self.downsample = kwargs.get("downsample", 10)
+		self.frequency = kwargs.get("frequency", 1)
+		self.downsample = kwargs.get("downsample", 1)
 		self.point_nb = kwargs.get("point_nb", 100)
 		self.nplots = -1
 
+		self.x_min = kwargs.get("x_min", 0)
+		self.x_max = kwargs.get("x_max", 100)
+		self.x_pad = kwargs.get("x_pad", 0)
+
+		self.y_min = kwargs.get("y_min", -50)
+		self.y_max = kwargs.get("y_max", 50)
+		self.y_pad = kwargs.get("y_pad", 0)
 		try:
 			self.plots = collections.OrderedDict()
 			self.win = pg.GraphicsWindow(title=self.title)
 			self.win.resize(self.size[0], self.size[1])
-		except Exception, e:
-			print "Unable to initialize Plot Manager"
+		except Exception as e:
+			print ("Unable to initialize Plot Manager")
 
 	def add(self, name, y, x=None, **kwargs):
 		"""
@@ -157,17 +175,23 @@ class PlotManager(object):
 					frequency=self.frequency,
 					downsample=self.downsample,
 					point_nb=self.point_nb,
+					x_min=self.x_min,
+					x_max=self.x_max,
+					x_pad=self.x_pad,
+					y_min=self.y_min,
+					y_max=self.y_max,
+					y_pad=self.y_pad,
 					**kwargs)
 
 			self.plots[name].add(y, x)
-		except Exception, e:
+		except Exception as e:
 			pass
 
 	def update(self):
 		"""
 		Updates all subplots
 		"""
-		for name, plot in self.plots.iteritems():
+		for name, plot in self.plots.items():
 			plot.update()
 
 	def close(self):
@@ -176,7 +200,7 @@ class PlotManager(object):
 		"""
 		try:
 			wait = input("Press ENTER to close plots")
-		except Exception, e:
+		except Exception as e:
 			pass
 		for name, plot in self.plots.iteritems():
 			plot.close()
